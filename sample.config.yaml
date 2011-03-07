@@ -1,0 +1,17 @@
+# please rename to "config.yaml"
+
+gyaaazz : "http://dev.shokai.org/g/"
+urlmemo : "http://path/to/urlmemo"
+
+im_kayac_users : # im.kayac.com usernames
+ - "user1"
+ - "user2"
+
+
+# twitter config
+consumer_key : 'your-app-consumer-key'
+consumer_secret : 'your-app-consumer-secret'
+access_token : 'use auth.rb'
+access_secret : 'use auth.rb'
+
+# no_tweet : "true"

@@ -2,6 +2,7 @@
 require 'rubygems'
 require 'net/http'
 require 'uri'
+require 'json'
 
 class UrlMemo
   
@@ -17,7 +18,7 @@ class UrlMemo
     Net::HTTP.start(@api_uri.host, @api_uri.port){|http|
       res = http.post(@api_uri.path, query)
     }
-    return res
+    return JSON.parse(res.body)
   end
 end
 
@@ -26,6 +27,4 @@ if __FILE__ == $0
   res = u.add(:url => 'http://shokai.org/blog/',
               :title => 'shokai blog')
   p res
-  require 'json'
-  p JSON.parse(res.body)
 end
