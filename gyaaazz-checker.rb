@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 require 'rubygems'
 require 'im-kayac'
+require 'twitter'
 require 'json'
 require 'yaml'
 require 'tokyocabinet'
@@ -33,6 +34,12 @@ end
 
 g = Gyaaazz.new(conf['gyaaazz'])
 u = UrlMemo.new(conf['urlmemo'])
+Twitter.configure do |config|
+  config.consumer_key = conf['consumer_key']
+  config.consumer_secret = conf['consumer_secret']
+  config.oauth_token = conf['access_token']
+  config.oauth_token_secret = conf['access_secret']
+end
 
 pages = g.search
 pages[0...20].each{|page|
@@ -47,9 +54,8 @@ pages[0...20].each{|page|
         p data
         res = u.add(:url => "#{conf['gyaaazz']}/#{data['name']}",
                     :title => "gyaaazz/#{data['name']}")
-        mes = "newpage 【#{data['name']}】 #{conf['urlmemo']}/#{res['name']} #{data['lines'].first}}"
-        ## tw.update unless conf['no_tweet']
-        puts mes[0...140] + "(twitter)"
+        puts mes = "newpage 【#{data['name']}】 #{conf['urlmemo']}/#{res['name']} #{data['lines'].first}"
+        Twitter.update mes[0...140] unless conf['no_tweet']
         lines = data['lines'].join("\n")
         conf['im_kayac_users'].each{|im_user|
           ImKayac.post(im_user, "newpage #{res['url']}\n #{lines}")
@@ -70,9 +76,8 @@ pages[0...20].each{|page|
             ImKayac.post(im_user, "#{res['url']}\n #{line}")
           }
           next if i > 1 # 2 tweet per 1 page
-          mes = "【#{data['name']}】 #{conf['urlmemo']}/#{res['name']} #{line}"
-          # twitter update unless conf['no_tweet']
-          puts mes[0...140] + "(twitter)"
+          puts mes = "【#{data['name']}】 #{conf['urlmemo']}/#{res['name']} #{line}"
+          Twitter.update mes[0...140] unless conf['no_tweet']
           sleep 5
         end
       rescue => e
@@ -80,7 +85,7 @@ pages[0...20].each{|page|
       end
     end
   end
-  sleep 3
+  sleep 5
 }
 
 db.close
