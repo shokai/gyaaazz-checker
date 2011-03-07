@@ -56,7 +56,7 @@ get access_token and secret
 Run
 ===
 
-    % ruby gyaaazz-checker.rb
+    % ./gyaaazz-checker
 
 Author
 ======
