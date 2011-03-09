@@ -36,7 +36,7 @@ end
 g = Gyaaazz.new(conf['gyaaazz'])
 u = UrlMemo.new(conf['urlmemo'])
 
-unless conf['notweet']
+unless conf['no_tweet']
   Twitter.configure do |config|
     config.consumer_key = conf['consumer_key']
     config.consumer_secret = conf['consumer_secret']
