@@ -35,11 +35,14 @@ end
 
 g = Gyaaazz.new(conf['gyaaazz'])
 u = UrlMemo.new(conf['urlmemo'])
-Twitter.configure do |config|
-  config.consumer_key = conf['consumer_key']
-  config.consumer_secret = conf['consumer_secret']
-  config.oauth_token = conf['access_token']
-  config.oauth_token_secret = conf['access_secret']
+
+unless conf['notweet']
+  Twitter.configure do |config|
+    config.consumer_key = conf['consumer_key']
+    config.consumer_secret = conf['consumer_secret']
+    config.oauth_token = conf['access_token']
+    config.oauth_token_secret = conf['access_secret']
+  end
 end
 
 pages = g.search
